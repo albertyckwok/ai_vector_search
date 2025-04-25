@@ -27,9 +27,12 @@ public class Oracle {
 			// Data source configuration
 			dataSource.setConnectionFactoryClassName("oracle.jdbc.datasource.impl.OracleDataSource");
 
-			// change the URL accordingly
-			// format: jdbc:oracle:thin:<user>/<user password>@//<hostname>/<database service>
-			dataSource.setURL("jdbc:oracle:thin:developer/free@//localhost/freepdb1");
+			// Use environment variables for CS (Connection String) and credential
+			// format: jdbc:oracle:thin:@cs
+			System.out.printf("Connecting to Database %s\n", System.getenv("cs"));
+			dataSource.setURL("jdbc:oracle:thin:@"+System.getenv("cs"));
+			dataSource.setUser(System.getenv("dbUser"));
+			dataSource.setPassword(System.getenv("myPwd"));
 		}
 		catch (SQLException sqle) {
 			throw new RuntimeException(sqle);
